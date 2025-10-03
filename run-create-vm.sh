@@ -42,6 +42,7 @@ export MAX_RETRIES="50"
 export POLL_INTERVAL_MS="4000"
 export MAX_POLL_MS="600000"
 export NOVA_MICROVERSION="2.1"
+export POST_DELETE_SLEEP_MS="3000"
 # export DELETE_ON_FAIL="false"
 
 echo

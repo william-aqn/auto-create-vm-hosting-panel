@@ -443,6 +443,7 @@ async function createUntilIpMatches(options) {
     microversion,
     volumeSizeGb,
     volumeType,
+    postDeleteSleepMs = 0,
   } = options;
 
   const nova = makeNovaClient({ token, projectId, novaBaseUrl, microversion });
@@ -508,6 +509,10 @@ async function createUntilIpMatches(options) {
       if (deleteOnFail) {
         console.log(`Deleting server ${serverId}...`);
         await deleteServer(nova, serverId, true);
+        if (postDeleteSleepMs && postDeleteSleepMs > 0) {
+          console.log(`Post-delete sleep ${postDeleteSleepMs}ms...`);
+          await sleep(postDeleteSleepMs);
+        }
       }
       // Continue next attempt
       continue;
@@ -525,6 +530,10 @@ async function createUntilIpMatches(options) {
     console.log(`No IP in desired ranges, will delete and retry.`);
     if (deleteOnFail) {
       await deleteServer(nova, serverId, true);
+      if (postDeleteSleepMs && postDeleteSleepMs > 0) {
+        console.log(`Post-delete sleep ${postDeleteSleepMs}ms...`);
+        await sleep(postDeleteSleepMs);
+      }
     }
   }
 
@@ -614,6 +623,9 @@ async function main() {
       effectiveVolumeType = undefined;
     }
   }
+
+  // Optional post-deletion sleep (ms) via env
+  const postDeleteSleepMs = Number(env.POST_DELETE_SLEEP_MS || 3000);
 
   // Resolve flavor by name if needed
   if (!flavorId && flavorName) {
@@ -730,6 +742,7 @@ async function main() {
       microversion: argv.microversion || env.NOVA_MICROVERSION || '2.1',
       volumeSizeGb,
       volumeType: effectiveVolumeType,
+      postDeleteSleepMs,
     });
 
     console.log('Done.');
