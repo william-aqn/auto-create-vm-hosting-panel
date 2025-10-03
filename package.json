@@ -1,0 +1,25 @@
+{
+  "name": "vkcloud-nova-ip-range",
+  "version": "1.0.0",
+  "description": "Create VK Cloud VM",
+  "main": "src/create-vm.js",
+  "scripts": {
+    "start": "node src/create-vm.js"
+  },
+  "keywords": [
+    "openstack",
+    "nova",
+    "vkcloud",
+    "compute",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "yargs": "^17.7.2"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
