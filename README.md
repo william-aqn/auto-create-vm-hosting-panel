@@ -1,0 +1,1 @@
+https://cloud.vk.com/docs/ru/tools-for-using-services/api/api-spec/iaas-api/nova-api
